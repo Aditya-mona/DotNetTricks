@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Data;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -60,6 +62,33 @@ namespace EFCore.Model
             OnModelCreatingPartial(modelBuilder);
         }
 
+        public Student usp_getproduct(Guid ?StudentId)
+        {
+            Student student = new Student();
+            using (var command = Database.GetDbConnection().CreateCommand())
+            {
+                command.CommandText = "usp_GetStudent";
+                command.CommandType = CommandType.StoredProcedure;
+                SqlParameter param = new SqlParameter("StudentId", StudentId);
+                command.Parameters.Add(param);
+
+                Database.OpenConnection();
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        student.StudentId = new Guid(reader.GetString("StudentId"));
+                        student.StudentName = reader.GetString("Name");
+                        student.CourseId= new Guid(reader.GetString("CourseId"));
+
+
+                    }
+                }
+                Database.CloseConnection();
+            }
+
+            return student;
+        }
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }
