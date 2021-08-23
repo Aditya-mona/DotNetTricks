@@ -58,7 +58,7 @@ namespace CRUD.Controllers
         public IActionResult Edit(Guid? Id)
         {
             //Student model = db.Students.Find(Id);
-            var model = db.usp_getproduct(Id);
+            var model = db.usp_GetStudent(Id);
             ViewBag.Course = db.Courses.ToList();
             return View("Create", model);
         }

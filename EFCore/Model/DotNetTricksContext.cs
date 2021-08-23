@@ -62,7 +62,7 @@ namespace EFCore.Model
             OnModelCreatingPartial(modelBuilder);
         }
 
-        public Student usp_getproduct(Guid ?StudentId)
+        public Student usp_GetStudent(Guid ?StudentId)
         {
             Student student = new Student();
             using (var command = Database.GetDbConnection().CreateCommand())
